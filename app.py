@@ -1,23 +1,27 @@
 from flask import Flask, render_template
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from forms import RegisterForm
+from models import db, User
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'key'
+app.config["SECRET_KEY"] = "secret"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 
-class RegisterForm(FlaskForm):
-    name = StringField('Name')
-    email = StringField('Email')
-    password = PasswordField('Password')
-    submit = SubmitField('Register')
+db.init_app(app)
 
-@app.route('/', methods=['GET','POST'])
+@app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
+        user = User(
+            name=form.name.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
         return render_template("success.html")
 
     return render_template("register.html", form=form)
-
-app.run(debug=True)
