@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 6px; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; }
+        .error { color: red; font-size: 0.9em; }
+        .flash { padding: 12px; margin-bottom: 20px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .danger  { background: #f8d7da; color: #721c24; }
+        button { padding: 12px 24px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<h2>Registration Form</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<form method="POST">
+    {{ form.hidden_tag() }}  <!-- very important - protects from CSRF -->
+
+    <div class="form-group">
+        {{ form.name.label }}
+        {{ form.name }}
+        {% for error in form.name.errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.email.label }}
+        {{ form.email }}
+        {% for error in form.email.errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.password.label }}
+        {{ form.password }}
+        {% for error in form.password.errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="form-group">
+        {{ form.confirm_password.label }}
+        {{ form.confirm_password }}
+        {% for error in form.confirm_password.errors %}
+            <div class="error">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    {{ form.submit }}
+</form>
+
+</body>
+</html>
