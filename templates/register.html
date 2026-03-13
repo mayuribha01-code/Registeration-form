@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>Register</title>
+</head>
+
+<body>
+
+<h2>Registration Form</h2>
+
+<form method="POST">
+
+{{ form.hidden_tag() }}
+
+Name:<br>
+{{ form.name() }}<br><br>
+
+Email:<br>
+{{ form.email() }}<br><br>
+
+Password:<br>
+{{ form.password() }}<br><br>
+
+{{ form.submit() }}
+
+</form>
+
+</body>
+</html>
